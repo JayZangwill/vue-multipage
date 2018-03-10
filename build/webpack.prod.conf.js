@@ -151,11 +151,13 @@ for (let pathname in entry) {
 module.exports = webpackConfig
 
 function getEntries(path) {
-  let entries = {};
-  glob.sync(path).forEach(entry => {
-    if (/(\module\/(?:.+[^.html]))/.test(entry)) {
-      entries[RegExp.$1] = entry;
-    }
-  })
-  return entries;
+    let entries = {},
+        key;
+    glob.sync(path).forEach(entry => {
+        if (/(\module\/(?:.+[^.html]))/.test(entry)) {
+            key = RegExp.$1.replace(/\/\w+\b/, '')
+            entries[key] = entry;
+        }
+    })
+    return entries;
 }
