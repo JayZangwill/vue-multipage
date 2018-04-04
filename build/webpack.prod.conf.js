@@ -141,7 +141,7 @@ for (let pathname in entry) {
     // necessary to consistently work with multiple chunks via CommonsChunkPlugin
     chunksSortMode: 'dependency'
   }
-  if (pathname in webpackConfig.entry) {
+  if ((pathname = pathname.replace(/module\/(\w+)/, 'module/$1/$1')) in webpackConfig.entry) {
     conf.chunks = ['manifest', 'vendor', pathname];
     conf.hash = true;
   }
@@ -151,6 +151,7 @@ for (let pathname in entry) {
 module.exports = webpackConfig
 
 function getEntries(path) {
+<<<<<<< HEAD
     let entries = {},
         key;
     glob.sync(path).forEach(entry => {
@@ -160,4 +161,13 @@ function getEntries(path) {
         }
     })
     return entries;
+=======
+  let entries = {};
+  glob.sync(path).forEach(entry => {
+    if (/(\module\/(?:.+[^.html]))/.test(entry)) {
+      entries[RegExp.$1.replace(/\/\w+\b/, '')] = entry;
+    }
+  })
+  return entries;
+>>>>>>> d7d01190c0f7d2b8c715478f6181ee2790606ba8
 }

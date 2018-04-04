@@ -12,7 +12,7 @@
 
 ## tip
 1. 如果想新建页面的话需要在`src/module`里新建文件夹，且文件夹里必须包括一个.html文件，.js文件，.vue文件作为入口文件
-2. `npm run dev`的时候提示打开localhost:8080，会发现一个404页面，这个时候在浏览器中的url追加上（以我目前的目录结构示例）`module/index`或者`module/other`
+2. `npm run dev`的时候提示打开localhost:8080，会发现一个404页面，这个时候在浏览器中的url追加上（以我目前的目录结构示例）`module/index.html`或者`module/other.html`
 
 ## Build Setup
 
@@ -20,7 +20,7 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080/module/index
+# serve with hot reload at localhost:8080/module/index.html
 npm run dev
 
 # build for production with minification
