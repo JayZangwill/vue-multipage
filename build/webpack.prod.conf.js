@@ -141,7 +141,7 @@ for (let pathname in entry) {
     // necessary to consistently work with multiple chunks via CommonsChunkPlugin
     chunksSortMode: 'dependency'
   }
-  if ((pathname = pathname.replace(/module\/(\w+)/, 'module/$1/$1')) in webpackConfig.entry) {
+  if (pathname in webpackConfig.entry) {
     conf.chunks = ['manifest', 'vendor', pathname];
     conf.hash = true;
   }

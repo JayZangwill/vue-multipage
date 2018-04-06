@@ -95,7 +95,7 @@ module.exports = new Promise((resolve, reject) => {
           // necessary to consistently work with multiple chunks via CommonsChunkPlugin
           chunksSortMode: 'dependency'
         }
-        if ((pathname = pathname.replace(/module\/(\w+)/, 'module/$1/$1')) in devWebpackConfig.entry) {
+        if (pathname in devWebpackConfig.entry) {
           conf.chunks = ['manifest', 'vendor', pathname];
           conf.hash = true;
         }
