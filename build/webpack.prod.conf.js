@@ -154,7 +154,7 @@ function getEntries(path) {
   let entries = {};
   glob.sync(path).forEach(entry => {
     if (/(\module\/(?:.+[^.html]))/.test(entry)) {
-      entries[RegExp.$1.replace(/\/\w+\b/, '')] = entry;
+      entries[RegExp.$1.slice(0,RegExp.$1.lastIndexOf('/'))] = entry;
     }
   })
   return entries;
