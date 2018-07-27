@@ -149,3 +149,7 @@ function getEntries(path) {
 ### 2018 5.15 更新config/index.js
 
 修改build配置项下的`assetsPublicPath为'../'` 解决根路径问题
+
+### 2018 7.27 更新build里的三个config.js
+
+修改正则为/(module\/(?:.+[^.])，解决module重命名问题
