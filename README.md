@@ -45,7 +45,7 @@ function resolve(dir) {
 function getEntries(path) {
   let entries = {};
   glob.sync(path).forEach(entry => {
-    if (/(\module\/(?:.+[^.js]))/.test(entry)) {
+    if (/(module\/(?:.+[^.]))/.test(entry)) {
       entries[RegExp.$1.replace(/\/\w+\b/, "")] = entry;
     }
   });
@@ -95,7 +95,7 @@ for (let pathname in entry) {
 function getEntries(path) {
   let entries = {};
   glob.sync(path).forEach(entry => {
-    if (/(\module\/(?:.+[^.js]))/.test(entry)) {
+    if (/(module\/(?:.+[^.]))/.test(entry)) {
       entries[RegExp.$1.replace(/\/\w+\b/, "")] = entry;
     }
   });
@@ -136,7 +136,7 @@ for (let pathname in entry) {
 function getEntries(path) {
   let entries = {};
   glob.sync(path).forEach(entry => {
-    if (/(\module\/(?:.+[^.html]))/.test(entry)) {
+    if (/(module\/(?:.+[^.]))/.test(entry)) {
       entries[RegExp.$1.replace(/\/\w+\b/, "")] = entry;
     }
   });
