@@ -13,7 +13,7 @@ function resolve(dir) {
 function getEntries(path) {
   let entries = {};
   glob.sync(path).forEach(entry => {
-    if(/(\module\/(?:.+[^.]))/.test(entry)) {
+    if(/(module\/(?:.+[^.]))/.test(entry)) {
       entries[RegExp.$1.slice(0,RegExp.$1.lastIndexOf('/'))] = entry;
     }
   })
