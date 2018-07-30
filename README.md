@@ -15,6 +15,7 @@
 1.  如果想新建页面的话需要在`src/module`里新建文件夹，且文件夹里必须包括一个.html 文件，.js 文件，.vue 文件作为入口文件
 2.  `npm run dev`的时候提示打开 localhost:8080 即可
 3.  为了方便维护`npm run build`出来的 html 文件是放在 module 文件夹里的
+4. 如果想修改`src`里的`module`文件夹名字的话，需要将三个`config.js`配置文件里的getEntries函数的参数`module`改成你想改的名字，同时这个函数的函数体里的`module`也需要更改。
 
 ## Build Setup
 
