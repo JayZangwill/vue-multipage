@@ -1,5 +1,8 @@
 <template>
   <div class="hello">
+    <a href="other.html">123</a>
+    <img src="../assets/logo.png">
+    <router-link to="/one">to one vue</router-link>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>

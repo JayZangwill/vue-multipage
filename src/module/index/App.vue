@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <a href="other.html">123</a>
-    <img src="./../../assets/logo.png">
-    <HelloWorld/>
+    <router-view></router-view>
   </div>
 </template>
 
