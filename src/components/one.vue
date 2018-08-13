@@ -1,10 +1,9 @@
 <template>
-  <p>1</p>
+    <p>other router</p>
 </template>
 
 <script>
-  export default {
+export default {
     name: 'one'
-  }
-
+}
 </script>

@@ -1,17 +1,15 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <img alt="Vue logo" src="../../assets/logo.png">
+    <a style="display:block" href="other.html">other page</a>
   </div>
 </template>
 
 <script>
-import HelloWorld from './../../components/HelloWorld'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  name: 'app'
 }
 </script>
 

@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <img src="./../../assets/logo.png">
-    <other/>
+    <img alt="Vue logo" src="../../assets/logo.png">
+    <HelloWorld msg="Welcome"/>
   </div>
 </template>
 
 <script>
-import other from './../../components/other'
+import HelloWorld from '../../components/HelloWorld.vue'
 
 export default {
-  name: 'App',
+  name: 'app',
   components: {
-    other
+    HelloWorld
   }
 }
 </script>

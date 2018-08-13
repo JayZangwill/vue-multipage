@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import one from '@/components/one';
-import HelloWorld from './../../components/HelloWorld'
+import HelloWorld from '../../components/HelloWorld'
 Vue.use(Router)
 export default new Router({
   routes: [{
