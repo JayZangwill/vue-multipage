@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require ('html-webpack-plugin');
 const {CleanWebpackPlugin} = require ('clean-webpack-plugin');
 const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
 const TerserJSPlugin = require ('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const OptimizeCSSAssetsPlugin = require ('optimize-css-assets-webpack-plugin');
+const VueLoaderPlugin = require ('vue-loader/lib/plugin');
 
 module.exports = ({production}) => {
   const common = {
@@ -24,13 +24,36 @@ module.exports = ({production}) => {
       proxy: {},
     },
     module: {
-      rules: [{
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      }]
+      rules: [
+        {
+          test: /\.(png|jpe?g|gif|svg|mp3|mp4|mov|wma|avi|flv|otf)$/i,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        },
+        {
+          test: /\.js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread'],
+            },
+          },
+        },
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader',
+        },
+      ],
     },
     plugins: [
-      new VueLoaderPlugin(),
+      new VueLoaderPlugin (),
       new HtmlWebpackPlugin ({
         template: path.resolve (__dirname, 'src/index.html'),
         minify: {
@@ -39,7 +62,7 @@ module.exports = ({production}) => {
           removeRedundantAttributes: true,
           removeScriptTypeAttributes: true,
           removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true
+          useShortDoctype: true,
         },
       }),
     ],
@@ -53,7 +76,13 @@ module.exports = ({production}) => {
       rules: [
         {
           test: /\.s?css$/,
-          use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+          use: [
+            'vue-style-loader',
+            'style-loader',
+            'css-loader',
+            'postcss-loader',
+            'sass-loader',
+          ],
         },
       ],
     },
@@ -70,7 +99,7 @@ module.exports = ({production}) => {
       rules: [
         {
           test: /\.s?css$/,
-          include: [path.resolve(__dirname, 'src')],
+          include: [path.resolve (__dirname, 'src')],
           use: [
             MiniCssExtractPlugin.loader,
             'css-loader',
