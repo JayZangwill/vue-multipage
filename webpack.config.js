@@ -26,7 +26,7 @@ module.exports = ({production}) => {
     module: {
       rules: [
         {
-          test: /\.(png|jpe?g|gif|svg|mp3|mp4|mov|wma|avi|flv|otf)$/i,
+          test: /\.(a?png|jpe?g|gif|svga?|mp3|mp4|mov|wma|avi|flv|otf)$/i,
           use: {
             loader: 'url-loader',
             options: {
