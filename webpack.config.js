@@ -13,6 +13,7 @@ module.exports = ({production}) => {
     devServer: {
       historyApiFallback: true,
       host: '0.0.0.0',
+      useLocalIp: true,
       hot: true,
       open: true,
       overlay: {
@@ -42,7 +43,7 @@ module.exports = ({production}) => {
             options: {
               cacheDirectory: true,
               presets: ['@babel/preset-env'],
-              plugins: ['@babel/plugin-proposal-object-rest-spread'],
+              plugins: ['@babel/transform-runtime', '@babel/plugin-proposal-optional-chaining'],
             },
           },
         },
