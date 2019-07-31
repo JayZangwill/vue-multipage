@@ -9,7 +9,10 @@ const VueLoaderPlugin = require ('vue-loader/lib/plugin');
 
 module.exports = ({production}) => {
   const common = {
-    entry: path.resolve (__dirname, 'src'),
+    entry: {
+      app: path.resolve (__dirname, 'src'),
+      vendor: ['vue'],
+    },
     devServer: {
       historyApiFallback: true,
       host: '0.0.0.0',
@@ -23,6 +26,13 @@ module.exports = ({production}) => {
       index: path.resolve (__dirname, 'src/index.html'),
       port: 8080,
       proxy: {},
+    },
+    resolve: {
+      alias: {
+        src: path.resolve(__dirname, 'src'),
+      },
+      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+      extensions: ['.js', '.vue'],
     },
     module: {
       rules: [
@@ -43,7 +53,10 @@ module.exports = ({production}) => {
             options: {
               cacheDirectory: true,
               presets: ['@babel/preset-env'],
-              plugins: ['@babel/transform-runtime', '@babel/plugin-proposal-optional-chaining'],
+              plugins: [
+                '@babel/transform-runtime',
+                '@babel/plugin-proposal-optional-chaining',
+              ],
             },
           },
         },
@@ -94,7 +107,7 @@ module.exports = ({production}) => {
     mode: 'production',
     output: {
       path: path.resolve (__dirname, 'dist'),
-      filename: 'app.[chunkhash].js',
+      filename: '[name].[chunkhash:8].js',
     },
     module: {
       rules: [
@@ -110,7 +123,9 @@ module.exports = ({production}) => {
         },
       ],
     },
-    plugins: [new CleanWebpackPlugin (), new MiniCssExtractPlugin ()],
+    plugins: [new CleanWebpackPlugin (), new MiniCssExtractPlugin ({
+      filename: '[name].[chunkhash:8].css',
+    })],
     optimization: {
       minimizer: [
         new TerserJSPlugin ({
