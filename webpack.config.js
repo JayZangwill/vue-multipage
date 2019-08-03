@@ -1,17 +1,16 @@
 const path = require ('path');
 const merge = require ('webpack-merge');
 const HtmlWebpackPlugin = require ('html-webpack-plugin');
-const { CleanWebpackPlugin } = require ('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require ('clean-webpack-plugin');
 const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
 const TerserJSPlugin = require ('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require ('optimize-css-assets-webpack-plugin');
 const VueLoaderPlugin = require ('vue-loader/lib/plugin');
 
-module.exports = ({ production }) => {
+module.exports = ({production}) => {
   const common = {
     entry: {
       app: path.resolve (__dirname, 'src'),
-      vendor: ['vue'],
     },
     devServer: {
       historyApiFallback: true,
@@ -29,9 +28,9 @@ module.exports = ({ production }) => {
     },
     resolve: {
       alias: {
-        src: path.resolve(__dirname, 'src'),
+        src: path.resolve (__dirname, 'src'),
       },
-      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+      modules: [path.resolve (__dirname, 'src'), 'node_modules'],
       extensions: ['.js', '.vue'],
     },
     module: {
@@ -80,6 +79,16 @@ module.exports = ({ production }) => {
         },
       }),
     ],
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          vendors: {
+            name: 'vendor',
+          },
+        },
+      },
+    },
   };
 
   // 开发环境
@@ -123,9 +132,12 @@ module.exports = ({ production }) => {
         },
       ],
     },
-    plugins: [new CleanWebpackPlugin (), new MiniCssExtractPlugin ({
-      filename: '[name].[chunkhash:8].css',
-    })],
+    plugins: [
+      new CleanWebpackPlugin (),
+      new MiniCssExtractPlugin ({
+        filename: '[name].[chunkhash:8].css',
+      }),
+    ],
     optimization: {
       minimizer: [
         new TerserJSPlugin ({
