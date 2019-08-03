@@ -1,5 +1,7 @@
 <template>
-  <div class="a" />
+  <div class="a">
+    <p>321</p>
+  </div>
 </template>
 
 <script>
@@ -20,7 +22,8 @@ export default {
 
 <style lang='scss' scoped>
 .a {
-  background: red;
+  background: linear-gradient(to right, red, #000);
   height: 200px;
 }
+
 </style>

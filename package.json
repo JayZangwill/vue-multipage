@@ -12,7 +12,8 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -20,6 +21,7 @@
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/runtime": "^7.5.5",
+    "@vue/babel-preset-jsx": "^1.1.0",
     "autoprefixer": "^9.6.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",

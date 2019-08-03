@@ -10,7 +10,7 @@ const VueLoaderPlugin = require ('vue-loader/lib/plugin');
 module.exports = ({production}) => {
   const common = {
     entry: {
-      app: path.resolve (__dirname, 'src'),
+      home: path.resolve (__dirname, 'src/pages/home/index.js'),
     },
     devServer: {
       historyApiFallback: true,
@@ -23,7 +23,6 @@ module.exports = ({production}) => {
         warnings: false,
       },
       index: path.resolve (__dirname, 'src/index.html'),
-      port: 8080,
       proxy: {},
     },
     resolve: {
@@ -51,7 +50,7 @@ module.exports = ({production}) => {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              presets: ['@babel/preset-env'],
+              presets: ['@babel/preset-env', '@vue/babel-preset-jsx'],
               plugins: [
                 '@babel/transform-runtime',
                 '@babel/plugin-proposal-optional-chaining',
