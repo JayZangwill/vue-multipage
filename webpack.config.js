@@ -1,13 +1,13 @@
 const path = require ('path');
 const merge = require ('webpack-merge');
 const HtmlWebpackPlugin = require ('html-webpack-plugin');
-const {CleanWebpackPlugin} = require ('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require ('clean-webpack-plugin');
 const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
 const TerserJSPlugin = require ('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require ('optimize-css-assets-webpack-plugin');
 const VueLoaderPlugin = require ('vue-loader/lib/plugin');
 
-module.exports = ({production}) => {
+module.exports = ({ production }) => {
   const common = {
     entry: {
       app: path.resolve (__dirname, 'src'),

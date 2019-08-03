@@ -1,10 +1,8 @@
 <template>
-  <div class="a"><test /></div>
-  
+  <div class="a" />
 </template>
 
 <script>
-import test from './test.vue'
 export default {
   data() {
     return {
@@ -14,14 +12,15 @@ export default {
       arr: [3]
     };
   },
-  components: {
-    test
-  },
   created() {
-    console.log(this.a?.b)
+   console.log(123)
   }
 };
 </script>
 
-<style>
+<style lang='scss' scoped>
+.a {
+  background: red;
+  height: 200px;
+}
 </style>
