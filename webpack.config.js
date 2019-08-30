@@ -53,6 +53,7 @@ module.exports = ({production}) => {
               presets: ['@babel/preset-env', '@vue/babel-preset-jsx'],
               plugins: [
                 '@babel/transform-runtime',
+                '@babel/plugin-syntax-dynamic-import',
                 '@babel/plugin-proposal-optional-chaining',
               ],
             },
@@ -115,7 +116,8 @@ module.exports = ({production}) => {
     mode: 'production',
     output: {
       path: path.resolve (__dirname, 'dist'),
-      filename: '[name].[chunkhash:8].js',
+      filename: '[name].[contenthash:8].js',
+      chunkFilename: '[name].[chunkhash:8].js',
     },
     module: {
       rules: [

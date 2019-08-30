@@ -1,6 +1,9 @@
 <template>
   <div class="a">
     <p>321</p>
+    <router-link to="/other">
+      other
+    </router-link>
   </div>
 </template>
 
