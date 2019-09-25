@@ -1,7 +1,7 @@
 const path = require ('path');
+const webpack = require('webpack');
 const merge = require ('webpack-merge');
 const HtmlWebpackPlugin = require ('html-webpack-plugin');
-const {CleanWebpackPlugin} = require ('clean-webpack-plugin');
 const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
 const TerserJSPlugin = require ('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require ('optimize-css-assets-webpack-plugin');
@@ -74,11 +74,32 @@ module.exports = ({production}) => {
     module: {
       rules: [
         {
-          test: /\.(a?png|jpe?g|gif|svga?|mp3|mp4|mov|wma|avi|flv|otf)$/i,
+          test: /\.(a?png|jpe?g|gif|svga?)$/i,
           use: {
             loader: 'url-loader',
             options: {
               limit: 10000,
+              name: 'images/[contenthash].[ext]',
+            },
+          },
+        },
+        {
+          test: /\.(mp3|mp4|mov|wma|avi|flv|otf)$/i,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: 'media/[contenthash].[ext]',
+            },
+          },
+        },
+        {
+          test: /\.(otf)$/i,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: 'font/[contenthash].[ext]',
             },
           },
         },
@@ -104,20 +125,26 @@ module.exports = ({production}) => {
         },
       ],
     },
-    plugins: [new VueLoaderPlugin (), ...htmlWebpackPluginOption],
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /node_modules/,
-            chunks: 'initial',
-            name: 'vendor',
-            // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
-            priority: 10,
-          },
-        },
-      },
-    },
+    plugins: [
+      new VueLoaderPlugin (),
+      new webpack.DllReferencePlugin ({
+        manifest: require ('./dist/vendor-manifest.json'),
+      }),
+      ...htmlWebpackPluginOption,
+    ],
+    // optimization: {
+    //   splitChunks: {
+    //     cacheGroups: {
+    //       vendor: {
+    //         test: /node_modules/,
+    //         chunks: 'initial',
+    //         name: 'vendor',
+    //         // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
+    //         priority: 10,
+    //       },
+    //     },
+    //   },
+    // },
   };
 
   // 开发环境
@@ -145,8 +172,8 @@ module.exports = ({production}) => {
     mode: 'production',
     output: {
       path: path.resolve (__dirname, 'dist'),
-      filename: '[name].[contenthash:8].js',
-      chunkFilename: '[name].[chunkhash:8].js',
+      filename: 'js/[name].[contenthash:8].js',
+      chunkFilename: 'js/[name].[chunkhash:8].js',
     },
     module: {
       rules: [
@@ -163,12 +190,12 @@ module.exports = ({production}) => {
       ],
     },
     plugins: [
-      new CleanWebpackPlugin (),
       new MiniCssExtractPlugin ({
-        filename: '[name].[contenthash:8].css',
+        filename: 'css/[name].[contenthash:8].css',
       }),
     ],
     optimization: {
+      namedChunks: true,
       minimizer: [
         new TerserJSPlugin ({
           cache: true,

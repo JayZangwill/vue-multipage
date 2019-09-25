@@ -1,8 +1,12 @@
 <template>
   <div class="a">
     <p>321</p>
-    <router-link to="/other">
-      other
+    <img
+      src="./images/1.jpg"
+      alt=""
+    >
+    <router-link to="test">
+      test
     </router-link>
   </div>
 </template>
