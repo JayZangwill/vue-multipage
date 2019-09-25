@@ -6,31 +6,35 @@ const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
 const TerserJSPlugin = require ('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require ('optimize-css-assets-webpack-plugin');
 const VueLoaderPlugin = require ('vue-loader/lib/plugin');
-const glob = require('glob');
-const { entries: entry, names } = getEntries(`${__dirname}/src/pages/**/index.js`);
+const glob = require ('glob');
+const {entries: entry, names} = getEntries (
+  `${__dirname}/src/pages/**/index.js`
+);
 
-function getEntries(path) {
+function getEntries (path) {
   const entries = {};
-  const names = []
+  const names = [];
 
-  glob.sync(path).forEach(entry => {
-    if(/(pages\/(?:.+[^.]))/.test(entry)) {
-      const name = RegExp.$1.slice(0,RegExp.$1.lastIndexOf('/')).split('/')[1]
+  glob.sync (path).forEach (entry => {
+    if (/(pages\/(?:.+[^.]))/.test (entry)) {
+      const name = RegExp.$1
+        .slice (0, RegExp.$1.lastIndexOf ('/'))
+        .split ('/')[1];
 
-      entries[name] = entry
-      names.push(name)
+      entries[name] = entry;
+      names.push (name);
     }
-  })
+  });
 
   return {
     entries,
     names,
-  }
+  };
 }
 
-const htmlWebpackPluginOption = names.map(item => {
+const htmlWebpackPluginOption = names.map (item => {
   return new HtmlWebpackPlugin ({
-    template: path.resolve(__dirname, 'src/index.html'),
+    template: path.resolve (__dirname, 'src/index.html'),
     filename: `${item}.html`,
     chunks: ['vendor', item],
     minify: {
@@ -41,8 +45,8 @@ const htmlWebpackPluginOption = names.map(item => {
       removeStyleLinkTypeAttributes: true,
       useShortDoctype: true,
     },
-  })
-})
+  });
+});
 
 module.exports = ({production}) => {
   const common = {
@@ -100,16 +104,16 @@ module.exports = ({production}) => {
         },
       ],
     },
-    plugins: [
-      new VueLoaderPlugin (),
-      ...htmlWebpackPluginOption,
-    ],
+    plugins: [new VueLoaderPlugin (), ...htmlWebpackPluginOption],
     optimization: {
       splitChunks: {
-        chunks: 'all',
         cacheGroups: {
-          vendors: {
+          vendor: {
+            test: /node_modules/,
+            chunks: 'initial',
             name: 'vendor',
+            // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
+            priority: 10,
           },
         },
       },
@@ -161,7 +165,7 @@ module.exports = ({production}) => {
     plugins: [
       new CleanWebpackPlugin (),
       new MiniCssExtractPlugin ({
-        filename: '[name].[content:8].css',
+        filename: '[name].[contenthash:8].css',
       }),
     ],
     optimization: {
@@ -172,14 +176,16 @@ module.exports = ({production}) => {
         }),
         new OptimizeCSSAssetsPlugin ({
           cssProcessorPluginOptions: {
-            preset: ['default', {
-              discardComments: {
-                removeAll: true,
+            preset: [
+              'default',
+              {
+                discardComments: {
+                  removeAll: true,
+                },
               },
-            }],
+            ],
           },
-        }
-),
+        }),
       ],
     },
   };
