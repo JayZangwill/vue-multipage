@@ -6,12 +6,47 @@ const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
 const TerserJSPlugin = require ('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require ('optimize-css-assets-webpack-plugin');
 const VueLoaderPlugin = require ('vue-loader/lib/plugin');
+const glob = require('glob');
+const { entries: entry, names } = getEntries(`${__dirname}/src/pages/**/index.js`);
+
+function getEntries(path) {
+  const entries = {};
+  const names = []
+
+  glob.sync(path).forEach(entry => {
+    if(/(pages\/(?:.+[^.]))/.test(entry)) {
+      const name = RegExp.$1.slice(0,RegExp.$1.lastIndexOf('/')).split('/')[1]
+
+      entries[name] = entry
+      names.push(name)
+    }
+  })
+
+  return {
+    entries,
+    names,
+  }
+}
+
+const htmlWebpackPluginOption = names.map(item => {
+  return new HtmlWebpackPlugin ({
+    template: path.resolve(__dirname, 'src/index.html'),
+    filename: `${item}.html`,
+    chunks: ['vendor', item],
+    minify: {
+      collapseWhitespace: true,
+      removeComments: true,
+      removeRedundantAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      useShortDoctype: true,
+    },
+  })
+})
 
 module.exports = ({production}) => {
   const common = {
-    entry: {
-      home: path.resolve (__dirname, 'src/pages/home/index.js'),
-    },
+    entry,
     devServer: {
       historyApiFallback: true,
       host: '0.0.0.0',
@@ -67,17 +102,7 @@ module.exports = ({production}) => {
     },
     plugins: [
       new VueLoaderPlugin (),
-      new HtmlWebpackPlugin ({
-        template: path.resolve (__dirname, 'src/index.html'),
-        minify: {
-          collapseWhitespace: true,
-          removeComments: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true,
-        },
-      }),
+      ...htmlWebpackPluginOption,
     ],
     optimization: {
       splitChunks: {
@@ -136,15 +161,25 @@ module.exports = ({production}) => {
     plugins: [
       new CleanWebpackPlugin (),
       new MiniCssExtractPlugin ({
-        filename: '[name].[chunkhash:8].css',
+        filename: '[name].[content:8].css',
       }),
     ],
     optimization: {
       minimizer: [
         new TerserJSPlugin ({
+          cache: true,
           parallel: true,
         }),
-        new OptimizeCSSAssetsPlugin (),
+        new OptimizeCSSAssetsPlugin ({
+          cssProcessorPluginOptions: {
+            preset: ['default', {
+              discardComments: {
+                removeAll: true,
+              },
+            }],
+          },
+        }
+),
       ],
     },
   };

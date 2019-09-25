@@ -5,7 +5,9 @@
 </template>
 <script>
 export default {
-  
+  created () {
+    console.log(4)
+  }
 }
 </script>
 <style lang='scss' scoped>
