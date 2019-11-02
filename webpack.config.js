@@ -206,6 +206,7 @@ module.exports = ({production}) => {
         manifest: require ('./dist/vendor-manifest.json'),
       }),
       new MiniCssExtractPlugin ({
+        publicPath: '/',
         filename: 'css/[name].[contenthash:8].css',
       }),
     ],
