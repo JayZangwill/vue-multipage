@@ -1,5 +1,5 @@
 const path = require ('path');
-const webpack = require('webpack');
+const webpack = require ('webpack');
 const merge = require ('webpack-merge');
 const HtmlWebpackPlugin = require ('html-webpack-plugin');
 const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
@@ -110,9 +110,25 @@ module.exports = ({production}) => {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              presets: ['@babel/preset-env', '@vue/babel-preset-jsx'],
+              presets: [
+                [
+                  '@babel/preset-env',
+                  {
+                    modules: false,
+                    useBuiltIns: 'usage',
+                    corejs: 3,
+                  },
+                ],
+                '@vue/babel-preset-jsx',
+              ],
               plugins: [
-                '@babel/transform-runtime',
+                [
+                  '@babel/transform-runtime',
+                  {
+                    regenerator: false,
+                    useESModules: true,
+                  },
+                ],
                 '@babel/plugin-syntax-dynamic-import',
                 '@babel/plugin-proposal-optional-chaining',
               ],
@@ -125,13 +141,7 @@ module.exports = ({production}) => {
         },
       ],
     },
-    plugins: [
-      new VueLoaderPlugin (),
-      new webpack.DllReferencePlugin ({
-        manifest: require ('./dist/vendor-manifest.json'),
-      }),
-      ...htmlWebpackPluginOption,
-    ],
+    plugins: [new VueLoaderPlugin (), ...htmlWebpackPluginOption],
     // optimization: {
     //   splitChunks: {
     //     cacheGroups: {
@@ -190,6 +200,9 @@ module.exports = ({production}) => {
       ],
     },
     plugins: [
+      new webpack.DllReferencePlugin ({
+        manifest: require ('./dist/vendor-manifest.json'),
+      }),
       new MiniCssExtractPlugin ({
         filename: 'css/[name].[contenthash:8].css',
       }),

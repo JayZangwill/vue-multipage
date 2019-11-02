@@ -21,9 +21,6 @@ export default {
       arr: [3]
     };
   },
-  created() {
-    console.log(3);
-  }
 };
 </script>
 
