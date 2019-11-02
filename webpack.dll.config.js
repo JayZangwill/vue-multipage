@@ -11,7 +11,7 @@ module.exports = {
   },
   output: {
     path: path.resolve ('./dist'),
-    filename: 'js/vendor.[chunkhash:8].js',
+    filename: 'js/vendor.js',
     library: '[name]_library',
   },
   optimization: {

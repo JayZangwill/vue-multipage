@@ -32,23 +32,25 @@ function getEntries (path) {
   };
 }
 
-const htmlWebpackPluginOption = names.map (item => {
-  return new HtmlWebpackPlugin ({
-    template: path.resolve (__dirname, 'src/index.html'),
-    filename: `${item}.html`,
-    chunks: ['vendor', item],
-    minify: {
-      collapseWhitespace: true,
-      removeComments: true,
-      removeRedundantAttributes: true,
-      removeScriptTypeAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      useShortDoctype: true,
-    },
-  });
-});
-
 module.exports = ({production}) => {
+  const htmlWebpackPluginOption = names.map (item => {
+
+    return new HtmlWebpackPlugin ({
+      template: path.resolve (__dirname, `src/${production ? 'index' : 'dev'}.html`),
+      filename: `${item}.html`,
+      chunks: ['vendor', item],
+      vendortUrl: './js/vendor.js',
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+      },
+    });
+  });
+
   const common = {
     entry,
     devServer: {
