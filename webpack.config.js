@@ -183,6 +183,7 @@ module.exports = ({production}) => {
   const prod = {
     mode: 'production',
     output: {
+      publicPath: '/',
       path: path.resolve (__dirname, 'dist'),
       filename: 'js/[name].[contenthash:8].js',
       chunkFilename: 'js/[name].[chunkhash:8].js',
