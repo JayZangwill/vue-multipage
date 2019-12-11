@@ -3,6 +3,7 @@ const webpack = require ('webpack');
 const {CleanWebpackPlugin} = require ('clean-webpack-plugin');
 const TerserJSPlugin = require ('terser-webpack-plugin');
 module.exports = {
+  mode: 'production',
   entry: {
     vendor: [
       'vue-router',
