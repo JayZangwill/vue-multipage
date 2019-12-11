@@ -7,7 +7,7 @@
   "author": "Jay Zangwill <359390851@qq.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --env.development",
+    "dev": "npm run build-dll && webpack-dev-server --env.development",
     "build": "webpack --env.production",
     "build-dll": "webpack --config webpack.dll.config.js --env.production",
     "release": "npm run build-dll && npm run build",
