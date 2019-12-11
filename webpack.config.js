@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require ('mini-css-extract-plugin');
 const TerserJSPlugin = require ('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require ('optimize-css-assets-webpack-plugin');
 const VueLoaderPlugin = require ('vue-loader/lib/plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const glob = require ('glob');
 const {entries: entry, names} = getEntries (
   `${__dirname}/src/pages/**/index.js`
@@ -143,7 +144,11 @@ module.exports = ({production}) => {
         },
       ],
     },
-    plugins: [new VueLoaderPlugin (), ...htmlWebpackPluginOption],
+    plugins: [
+      new VueLoaderPlugin (),
+      new CopyPlugin ([{from: path.resolve (__dirname, 'public'), to: path.resolve (__dirname, 'dist')}]),
+      ...htmlWebpackPluginOption
+    ],
     // optimization: {
     //   splitChunks: {
     //     cacheGroups: {
