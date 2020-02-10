@@ -87,7 +87,7 @@ module.exports = ({production}) => {
           },
         },
         {
-          test: /\.(mp3|mp4|mov|wma|avi|flv|otf)$/i,
+          test: /\.(mp3|mp4|mov|wma|avi|flv)$/i,
           use: {
             loader: 'url-loader',
             options: {
