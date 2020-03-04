@@ -1,16 +1,23 @@
 {
-  "name": "test",
+  "name": "vue-multipage",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "vue多页面webpack配置",
+  "main": "index.js",
+  "repository": "git@github.com:JayZangwill/vue-multipage.git",
   "author": "Jay Zangwill <359390851@qq.com>",
-  "private": true,
+  "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
-    "build": "rimraf dist && node build/build.js"
+    "dev": "npm run build-dll && webpack-dev-server --env.development",
+    "build": "webpack --env.production",
+    "build-dll": "webpack --config webpack.dll.config.js --env.production",
+    "release": "npm run build-dll && npm run build",
+    "build:server": "npm run release && npm run server",
+    "server": "http-server ./dist -o",
+    "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "vue": "^2.5.2"
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
