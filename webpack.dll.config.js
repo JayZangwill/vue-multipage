@@ -7,6 +7,7 @@ module.exports = {
   entry: {
     vendor: [
       'vue',
+      'vue-router'
     ],
   },
   output: {
