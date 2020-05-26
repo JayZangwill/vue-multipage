@@ -6,14 +6,13 @@ module.exports = {
   mode: 'production',
   entry: {
     vendor: [
-      'vue-router',
       'vue',
     ],
   },
   output: {
     path: path.resolve ('./dist'),
-    filename: 'js/vendor.js',
-    library: '[name]_library',
+    filename: 'js/[name].[chunkhash].js',
+    library: '[name]_[chunkhash]',
   },
   optimization: {
     minimizer: [
@@ -26,8 +25,8 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin (),
     new webpack.DllPlugin ({
-      path: path.resolve ('./dist', 'vendor-manifest.json'),
-      name: '[name]_library',
+      path: path.join (__dirname,'./dist', '[name]-manifest.json'),
+      name: '[name]_[chunkhash]',
     }),
   ],
 };

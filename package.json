@@ -7,10 +7,9 @@
   "author": "Jay Zangwill <359390851@qq.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "npm run build-dll && webpack-dev-server --env.development",
-    "build": "webpack --env.production",
+    "dev": "webpack-dev-server --env.development",
+    "build": "npm run build-dll && webpack --env.production",
     "build-dll": "webpack --config webpack.dll.config.js --env.production",
-    "release": "npm run build-dll && npm run build",
     "build:server": "npm run release && npm run server",
     "server": "http-server ./dist -o",
     "lint": "eslint --ext .js,.vue src"

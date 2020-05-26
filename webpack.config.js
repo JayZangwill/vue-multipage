@@ -1,4 +1,5 @@
 const path = require ('path');
+const fs = require('fs');
 const webpack = require ('webpack');
 const merge = require ('webpack-merge');
 const HtmlWebpackPlugin = require ('html-webpack-plugin');
@@ -208,13 +209,25 @@ module.exports = ({production}) => {
       ],
     },
     plugins: [
-      new webpack.DllReferencePlugin ({
-        manifest: require ('./dist/vendor-manifest.json'),
-      }),
       new MiniCssExtractPlugin ({
         publicPath: '/',
         filename: 'css/[name].[contenthash:8].css',
       }),
+      // 自动注入vendor
+      {
+        apply(compiler) {
+          compiler.hooks.done.tap('rewritePath', (stats) => {
+            const  vendorJson = fs.readFileSync(path.resolve(stats.compilation.outputOptions.path, 'vendor-manifest.json'), 'utf-8')
+            const vendorPath = `/js/${(JSON.parse(vendorJson).name).replace('_', '.')}.js`
+
+            glob.sync(path.resolve(stats.compilation.outputOptions.path, '*.html')).forEach(item => {
+              const htmlStr = fs.readFileSync(item, 'utf-8')
+
+              fs.writeFileSync(item, htmlStr.replace('%placeholder%', vendorPath))
+            })
+          });
+        }
+      }
     ],
     optimization: {
       namedChunks: true,
@@ -238,6 +251,13 @@ module.exports = ({production}) => {
       ],
     },
   };
+
+  if (production) {
+    prod.plugins.push(new webpack.DllReferencePlugin ({
+      context: __dirname,
+      manifest: require ('./dist/vendor-manifest.json'),
+    }))
+  }
 
   return merge (common, production ? prod : dev);
 };
